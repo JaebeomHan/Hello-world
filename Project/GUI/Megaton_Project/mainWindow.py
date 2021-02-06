@@ -42,10 +42,10 @@ class MainWindow(QMainWindow):
         filemenu.addAction(openFileAction)
 
         ## 툴바
-        self.toolbar = self.addToolBar('Exit')
-        self.toolbar.addAction(exitAction)
-        self.toolbar = self.addToolBar('Open')
-        self.toolbar.addAction(openFileAction)
+    #    self.toolbar = self.addToolBar('Exit')
+    #    self.toolbar.addAction(exitAction)
+    #    self.toolbar = self.addToolBar('Open')
+    #    self.toolbar.addAction(openFileAction)
 
         ## MainWidget 객체 생성
         setMainWidget = MainWidget()

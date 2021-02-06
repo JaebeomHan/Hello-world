@@ -37,11 +37,9 @@ class MainWidget(QWidget):
         labelLayout.addWidget(subTitle)
 
         # 사용자 정보 입력 버튼
-        self.userInfoBtn = QPushButton('Start', self)
-        self.userInfoBtn.move(400, 250)
-        self.userInfoBtn.resize(200, 50)
-        self.userInfoBtn.clicked.connect(self.inputUserInfo)
-        self.userInfoSlot = QTextEdit(self)
+        self.userInfoBtn = QPushButton('시작하기', self)
+        self.userInfoBtn.move(520, 250)
+        self.userInfoBtn.resize(100, 30)
 
         # 프로그램 설명 버튼
         self.programExplanation = QPushButton('프로그램 설명', self)
@@ -53,6 +51,15 @@ class MainWidget(QWidget):
         self.madeByBtn.move(850, 450)
         self.madeByBtn.resize(110, 40)
         self.madeByBtn.clicked.connect(self.madeByInfo)
+
+        # 사용자 정보 콤보박스
+        userPrifile = QComboBox(self)
+        userPrifile.addItem('학부생')
+        userPrifile.addItem('대학원생')
+        userPrifile.addItem('교수님')
+        userPrifile.addItem('연구원')
+        userPrifile.move(350, 250)
+        userPrifile.resize(150, 30)
 
     def inputUserInfo(self):
         text, ok = QInputDialog.getText(self, 'Welcome', '소속을 입력하세요.')
@@ -85,3 +92,7 @@ class MainWidget(QWidget):
 
     def dialogClose(self):
         self.dialog.close()
+
+    def onActivated(self, text):
+        self.lbl.setText(text)
+        self.lbl.adjustSize()
