@@ -26,26 +26,13 @@ class MainWindow(QMainWindow):
         exitAction = QAction(QIcon('Project\GUI\Megaton_Project\exit.png'), 'Exit', self)
         exitAction.setShortcut('Ctrl+Q')
         exitAction.setStatusTip('Exit application')
-        exitAction.triggered.connect(qApp.quit)
-
-        openFileAction = QAction('Open', self)
-        openFileAction = QAction(QIcon('Megaton_Project\file.png'), 'Open', self)
-        openFileAction.setShortcut('Ctrl+O')
-        openFileAction.setStatusTip('Open New File')
-        openFileAction.triggered.connect(self.openFileAction)
+        exitAction.triggered.connect(QApplication.quit)
 
         ## 메뉴바에 FIle 추가
         menubar = self.menuBar()
         menubar.setNativeMenuBar(False)
         filemenu = menubar.addMenu('&File')
         filemenu.addAction(exitAction)
-        filemenu.addAction(openFileAction)
-
-        ## 툴바
-    #    self.toolbar = self.addToolBar('Exit')
-    #    self.toolbar.addAction(exitAction)
-    #    self.toolbar = self.addToolBar('Open')
-    #    self.toolbar.addAction(openFileAction)
 
         ## MainWidget 객체 생성
         setMainWidget = MainWidget()
@@ -63,29 +50,11 @@ class MainWindow(QMainWindow):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
-    def openFileAction(self): # 파일 오픈 누르면 뜨는 창
-        fname = QFileDialog.getOpenFileName(self, 'Open file', './')
-
-        if fname[0]:
-            f = open(fname[0], 'r')
-
-            with f:
-                data = f.read()
-                self.textEdit.setText(data)
-
-    def closeEvent(self, event):
+    def closeEvent(self, event): # 창 닫을 때 다시 한번 물어보기
         reply = QMessageBox.question(self, 'Message', 'Are you sure to quit?',
-                                    QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                                    QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
         if reply == QMessageBox.Yes:
             event.accept()
         else:
             event.ignore()
-
-    def inputUserInfo(self):
-        text, ok = QInputDialog.getText(self, 'Welcome', 'Please enter your affiliation:')
-
-        if ok:
-            self.userInfoSlot.setText(str(text))
-
-
 

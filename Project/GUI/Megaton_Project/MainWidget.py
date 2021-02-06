@@ -36,10 +36,14 @@ class MainWidget(QWidget):
         labelLayout.addWidget(mainTitle)
         labelLayout.addWidget(subTitle)
 
-        # 사용자 정보 입력 버튼
-        self.userInfoBtn = QPushButton('시작하기', self)
-        self.userInfoBtn.move(520, 250)
-        self.userInfoBtn.resize(100, 30)
+        # 기능 시작 버튼 - 파일을 읽기만 함!
+        self.startProgram = QPushButton('시작하기', self)
+        self.startProgram.move(520, 250)
+        self.startProgram.resize(100, 30)
+        self.startProgram.clicked.connect(self.dialogOpen)
+
+        # QDialog 설정
+        self.dialog = QDialog()
 
         # 프로그램 설명 버튼
         self.programExplanation = QPushButton('프로그램 설명', self)
@@ -54,25 +58,18 @@ class MainWidget(QWidget):
 
         # 사용자 정보 콤보박스
         userPrifile = QComboBox(self)
-        userPrifile.addItem('학부생')
+        userPrifile.addItem('직업을 선택해주세요')
         userPrifile.addItem('대학원생')
         userPrifile.addItem('교수님')
         userPrifile.addItem('연구원')
-        userPrifile.move(350, 250)
-        userPrifile.resize(150, 30)
-
-    def inputUserInfo(self):
-        text, ok = QInputDialog.getText(self, 'Welcome', '소속을 입력하세요.')
-
-        if ok:
-            self.userInfoSlot.setText(str(text))
-            ok.clicked.connect(self.madeByInfo)
+        userPrifile.move(330, 250)
+        userPrifile.resize(170, 30)
 
     def madeByInfo(self):
         LEADERMadeBy = QLabel('Leader : 최지우')
         GUIMadeBy = QLabel('GUI : 한재범')
         DATABASEMadeby = QLabel('Database : 이경훈')
-        btnMadeBy = QPushButton("OK", self.dialog)
+        btnMadeBy = QPushButton("Close", self.dialog)
         btnMadeBy.clicked.connect(self.dialogClose)
 
         self.dialog.setWindowTitle('만든이')
@@ -90,9 +87,36 @@ class MainWidget(QWidget):
         self.dialog.setFixedSize(200, 180)
         self.dialog.show()
 
+    # 버튼 이벤트 함수
+    def dialogOpen(self):
+        
+        # 버튼 추가
+        btnDialog = QPushButton("OK", self.dialog)
+        btnDialog.move(570, 750)
+        btnDialog.clicked.connect(self.dialogClose)
+        self.dialog.textEdit = QTextEdit(self.dialog)
+        self.dialog.textEdit.move(50, 20)
+        self.dialog.textEdit.resize(1100, 700)
+
+        # QDialog 세팅
+        self.dialog.setWindowTitle('Dialog')
+        self.dialog.setWindowModality(Qt.ApplicationModal)
+        self.dialog.resize(1200, 800)
+
+        fname = QFileDialog.getOpenFileName(self, 'Open File', '',
+                                            'text File(*.txt)')
+        if fname[0]:
+            # 텍스트 파일 내용 읽기
+            f = open(fname[0], 'r', encoding='UTF8') # Path 정보로 파일을 읽는다.
+            with f:
+                data = f.read()
+                self.dialog.textEdit.setText(data)
+        else:
+            QMessageBox.about(self, 'Warning', '파일을 선택하지 않았습니다.')
+
+
+        self.dialog.show()
+
+    # Dialog 닫기 이벤트
     def dialogClose(self):
         self.dialog.close()
-
-    def onActivated(self, text):
-        self.lbl.setText(text)
-        self.lbl.adjustSize()
