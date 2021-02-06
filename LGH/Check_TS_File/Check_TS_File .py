@@ -8,6 +8,7 @@ def Check_TS_File(file) :
                 saved_data.append(text)
 
     save_only_frequencies = sum(saved_data, [])
+    print(save_only_frequencies)
     while '' in save_only_frequencies :
         save_only_frequencies.remove('')
     while '--' in save_only_frequencies :
@@ -21,7 +22,9 @@ def Check_TS_File(file) :
         print("good")
     else :
         print("not good")
-print(Check_TS_File('gv5_wts10-1.txt'))
+
+if __name__ == '__main__':
+    print(Check_TS_File('Project\project_data\gv5_wts10-1.txt')) ## 매직메소드 사용하기
 
 
 
