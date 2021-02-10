@@ -19,7 +19,7 @@ def fileopen(file):
 
     return saved_data , energy
 
-print(fileopen('gv5_w10.txt'))
+print(fileopen('Project/project_data/gv5_w10.txt'))
 
 
 
