@@ -1,7 +1,7 @@
 import sys
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-from PyQt5.QtGui import * # 어떤 클래스를 썼는지 확인이 힘듦
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QDesktopWidget, QMessageBox
+from PyQt5.QtCore import QCoreApplication
+from PyQt5.QtGui import QIcon
 from MainWidget import MainWidget
 
 class MainWindow(QMainWindow):
