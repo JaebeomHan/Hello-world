@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import (QWidget, QPushButton, QAction, QVBoxLayout, QHBoxLayout, QComboBox, QGridLayout, QMessageBox,
                             QDesktopWidget, QLabel, QLineEdit, QInputDialog, QFileDialog, QDialog, QTextEdit)
 from PyQt5.QtCore import QCoreApplication, Qt
-from energy import fileopen
+from energy import calculate_reactant1_energy
 
 class MainWidget(QWidget):
 
@@ -128,26 +128,23 @@ class MainWidget(QWidget):
         self.dialog.closeBtn = QPushButton("OK", self.dialog)
         self.dialog.closeBtn.move(570, 750)
         self.dialog.closeBtn.clicked.connect(self.dialogClose)
+
         self.dialog.textEdit = QTextEdit(self.dialog)
         self.dialog.textEdit.move(50, 20)
         self.dialog.textEdit.resize(1100, 700)
-
-        fileLoadBtn = QPushButton("파일 불러오기", self.dialog)
-        fileLoadBtn.move(200, 200)
 
         ## QDialog 세팅
         self.dialog.setWindowTitle('Dialog')
         self.dialog.setWindowModality(Qt.ApplicationModal)
         self.dialog.resize(1200, 800)
 
-        fname = QFileDialog.getOpenFileName(self, 'Open File', '',
-                                            'text File(*.txt)')
+        fname = QFileDialog.getOpenFileName(self, 'Open File : ', '', 'text File(*.txt)')
         if fname[0]:
             ## 텍스트 파일 내용 읽기
-            f = open(fname[0], 'r', encoding='UTF8') ## Path 정보로 파일을 읽는다.
+            f = open(fname[0], 'r', encoding='UTF8') ## 파일을 읽는다.
             with f:
-                data = f.read()
-                self.dialog.textEdit.setText(fileopen(data))
+                data = calculate_reactant1_energy(f.read())
+                self.dialog.textEdit.setText(data)
         else:
             QMessageBox.about(self, 'Warning', '파일을 선택하지 않았습니다.')
 
