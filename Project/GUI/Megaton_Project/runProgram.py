@@ -5,5 +5,5 @@ from MainWindow import MainWindow
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    firstProgram = MainWindow()
+    runProgram = MainWindow()
     sys.exit(app.exec_())
