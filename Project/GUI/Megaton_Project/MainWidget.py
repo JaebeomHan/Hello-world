@@ -143,7 +143,7 @@ class MainWidget(QWidget):
             ## 텍스트 파일 내용 읽기
             f = open(fname[0], 'r', encoding='UTF8') ## 파일을 읽는다.
             with f:
-                data = calculate_reactant1_energy(f.read())
+                data = calculate_reactant1_energy(f)
                 self.dialog.textEdit.setText(data)
         else:
             QMessageBox.about(self, 'Warning', '파일을 선택하지 않았습니다.')
@@ -160,3 +160,18 @@ class MainWidget(QWidget):
 
         if ok:
             self.le.setText(str(text))
+
+    def secondWindow(self):
+        self.dialog.reactantOne = QPushButton("반응물1", self.dialog)
+        self.dialog.reactantTwo = QPushButton("반응물2", self.dialog)
+        self.dialog.reactantThree = QPushButton("전이구조", self.dialog)
+
+        self.dialog.textEdit = QTextEdit(self.dialog)
+        self.dialog.textEdit.move(50, 20)
+        self.dialog.textEdit.resize(1100, 700)
+
+        self.dialog.setWindowTitle('Dialog')
+        self.dialog.setWindowModality(Qt.ApplicationModal)
+        self.dialog.resize(1200, 800)
+
+        self.dialog.show()
