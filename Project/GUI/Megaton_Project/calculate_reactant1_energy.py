@@ -1,4 +1,5 @@
 
+
 def calculate_reactant1_energy(data):
 
     saved_data = []
