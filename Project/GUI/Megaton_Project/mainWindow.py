@@ -23,7 +23,6 @@ class MainWindow(QMainWindow):
 
         ## 단축키 설정
         exitAction = QAction('Exit', self)
-        exitAction = QAction(QIcon('Project\GUI\Megaton_Project\exit.png'), 'Exit', self)
         exitAction.setShortcut('Ctrl+Q')
         exitAction.setStatusTip('Exit application')
         exitAction.triggered.connect(QApplication.quit)
