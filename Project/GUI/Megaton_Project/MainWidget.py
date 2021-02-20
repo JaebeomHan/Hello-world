@@ -173,7 +173,7 @@ class MainWidget(QWidget):
         self.programRunDialog.textEdit3.move(400, 300)
 
         data = self.programRunDialog.reactant1.clicked.connect(self.fileOpenDialog)
-        self.programRunDialog.textEdit1.setText(data)
+        self.programRunDialog.textEdit1.setText("data")
 
         self.programRunDialog.setWindowTitle("Dialog")
         self.programRunDialog.setWindowModality(Qt.ApplicationModal)
