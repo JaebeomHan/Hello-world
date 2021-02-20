@@ -102,15 +102,14 @@ class MainWidget(QWidget):
     ## 도움말 Dialog
     def helpMe(self):
         labelHelpMe = QLabel(
-            '''이 프로그램은 사용자의....... 활성화 에너지를 구해줍니다.
-            문의 사항이 있으시면 리더에게 개인적으로 연락 바랍니다.''')
+            "이 프로그램은 사용자의....... 활성화 에너지를 구해줍니다.", self.helpMeDialog)
         btnHelpMe = QPushButton("Close", self.helpMeDialog)
         btnHelpMe.clicked.connect(self.closeDialog)
 
-        layout = QVBoxLayout()
-        layout.addWidget(labelHelpMe)
-        layout.addWidget(btnHelpMe)
-        self.helpMeDialog.setLayout(layout)
+        labelHelpMe.resize(400, 200)
+        labelHelpMe.move(50, 50)
+        btnHelpMe.resize(100, 30)
+        btnHelpMe.move(200, 400)
 
         self.helpMeDialog.setWindowTitle("프로그램 설명")
         self.helpMeDialog.setWindowModality(Qt.ApplicationModal)
@@ -128,7 +127,7 @@ class MainWidget(QWidget):
             with f:
                 data = calculate_reactant1_energy(f)
               #  self.dialog.textEdit.setText(data) # data는 str 형식이니 참고바람
-                return data
+                self.programRunDialog.textEdit1.setText(str(data))
         else:
             QMessageBox.about(self, 'Warning', '파일을 선택하지 않았습니다.')
 
@@ -173,7 +172,7 @@ class MainWidget(QWidget):
         self.programRunDialog.textEdit3.move(400, 300)
 
         data = self.programRunDialog.reactant1.clicked.connect(self.fileOpenDialog)
-        self.programRunDialog.textEdit1.setText("data")
+
 
         self.programRunDialog.setWindowTitle("Dialog")
         self.programRunDialog.setWindowModality(Qt.ApplicationModal)

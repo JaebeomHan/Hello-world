@@ -1,3 +1,4 @@
+
 import sys
 sys.dont_write_bytecode = True
 from PyQt5.QtWidgets import QApplication
