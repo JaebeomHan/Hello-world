@@ -10,6 +10,3 @@ class MysqlController:
         sql = 'INSERT INTO {0} VALUES ({1})'.format(table_name, ','.join(values))
         self.curs.execute(sql)
         self.conn.commit()
-
-    def search_value(self, table_name, values):
-        sql = 'SELECT'

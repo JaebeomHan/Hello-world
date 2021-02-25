@@ -2,8 +2,8 @@
 
 
 import Mysql_Controller
-
+values = ['id','1', '2','3','4','5','6','created']
+table_name = 'megaton_data'
 if __name__ == '__main__':
-    mysql_controller = Mysql_Controller.MysqlController('localhost', 'root', 'cordmfdlfrwk07', 'megaton')
-    table_name = 'megaton_data'
-    mysql_controller.save_value(table_name, ['id', '"test"', '"test1"','1','1.234','1.234','"test5"', 'created'])
+    mysql_controller = Mysql_Controller.MysqlController('localhost', 'root', 'cordmfdlfrwk07', 'pra')
+    mysql_controller.save_value(table_name, values)

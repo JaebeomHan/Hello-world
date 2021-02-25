@@ -19,5 +19,7 @@ class unit_conversion():
         return self.energy * 627.5
 
 energy = 20
-gg = unit_conversion(energy)
-print("dh", gg.to_J())
+print_conversion_energy = unit_conversion(energy)
+print(energy,"a.u. of energy =", print_conversion_energy.to_hartree(), "hartree =", print_conversion_energy.to_J(),
+      "J =",print_conversion_energy.to_ev(),"ev =", print_conversion_energy.to_kJmol(), "kj/mol =",
+      print_conversion_energy.to_Kcalmol(), "kcal/mol")
