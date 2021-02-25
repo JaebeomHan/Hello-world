@@ -2,7 +2,7 @@
 import sys
 sys.dont_write_bytecode = True
 from PyQt5.QtWidgets import QApplication
-from mainWindow import MainWindow
+from MainWindow import MainWindow
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

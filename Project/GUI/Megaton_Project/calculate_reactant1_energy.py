@@ -14,7 +14,6 @@ def calculate_reactant1_energy(data):
     for text in saved_data:
         if 'HF=' in text:
             hf_list.append(text)
-            global transition_energy_value
             transition_energy = [i.lstrip('HF=') for i in hf_list]
             transition_energy_value = transition_energy[0]
 
