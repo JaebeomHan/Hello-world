@@ -1,5 +1,6 @@
 
 import sys
+sys.dont_write_bytecode = True
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QDesktopWidget, QMessageBox
 from PyQt5.QtCore import QCoreApplication
 from PyQt5.QtGui import QIcon
@@ -19,7 +20,7 @@ class MainWindow(QMainWindow):
         self.setFixedSize(1000, 600)
 
         ## 상태 표시줄
-        self.statusBar().showMessage('imcomplete version')
+        self.statusBar().showMessage('Version 2-26')
         self.statusBar()
 
         ## 단축키 설정
