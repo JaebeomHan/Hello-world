@@ -95,6 +95,7 @@ class MainWidget(QWidget):
         self.madeByDialog = QDialog()
         self.helpMeDialog = QDialog()
         self.plzInputProfileDialog = QDialog()
+        self.unitConversionDialog = QDialog()
 
     ## 만든이 정보 함수
     def madeByInfo(self):
@@ -142,6 +143,7 @@ class MainWidget(QWidget):
         self.madeByDialog.close()
         self.helpMeDialog.close()
         self.plzInputProfileDialog.close()
+        self.unitConversionDialog.close()
 
     ## 정보 입력 안했을 때 경고문
     def plzInputProfileFunction(self):
@@ -151,7 +153,6 @@ class MainWidget(QWidget):
 
         self.plzInputProfileDialog.plzInputProfileLabel.move(50, 35)
         self.plzInputProfileDialog.closeProfileDialog.move(100, 80)
-        self.plzInputProfileDialog.setWindowModality(Qt.ApplicationModal)
         self.plzInputProfileDialog.setWindowTitle("경고")
         self.plzInputProfileDialog.setFixedSize(300, 120)
         self.plzInputProfileDialog.show()
@@ -189,12 +190,15 @@ class MainWidget(QWidget):
             f = open(fname[0], 'r', encoding="UTF8")
             with f:
                 global data_TS
+                global data_result
                 data_TS = calculate_reactant1_energy(f)
+                data_result = str(float(data_TS) - (float(data_1) + float(data_2)))
                 self.programRunDialog.textEdit3.setText(str(data_TS))
                 if float(data_TS)<0 :
-                    self.programRunDialog.textEdit4.setText("올바른 전이 구조를 구하셨습니다.")
+                    self.programRunDialog.textEdit4.setText("활성화 에너지 : " + data_result)
+                    self.programRunDialog.textEdit5.setText("올바른 전이 구조를 구하셨습니다.")
                 else :
-                    self.programRunDialog.textEdit4.setText("전이 구조가 잘못되었습니다.")
+                    self.programRunDialog.textEdit5.setText("전이 구조가 잘못되었습니다.")
         else:
             QMessageBox.about(self, 'Warning', '파일을 선택하지 않았습니다.')
 
@@ -213,15 +217,13 @@ class MainWidget(QWidget):
             f.write("\nReactant1 : " + str(data_1))
             f.write("\nReactant2 : " + str(data_2))
             f.write("\nTransition State : " + str(data_TS))
-
-            for num in range(0, 7):
-                f.write("\n" + str(self.resultList[num]))
+            f.write("\nActivation Energy : " + data_result)
 
 
     ## 메인 기능 실행 Dialog
     def programRunFunction(self):
 
-        if (self.userProfileCBox.currentText() != "선택"):
+        if (self.userProfileCBox.currentText() != "선택" and self.userDepartmentCBox.currentText() != "선택"):
         
             self.programRunDialog.setFixedSize(500, 500)
 
@@ -232,6 +234,8 @@ class MainWidget(QWidget):
             self.programRunDialog.textEdit2 = QTextEdit(self.programRunDialog)
             self.programRunDialog.textEdit3 = QTextEdit(self.programRunDialog)
             self.programRunDialog.textEdit4 = QTextEdit(self.programRunDialog)
+            self.programRunDialog.textEdit5 = QTextEdit(self.programRunDialog)
+            self.programRunDialog.unitConversion = QPushButton(self.programRunDialog)
 
             self.programRunDialog.reactant1.resize(140, 30)
             self.programRunDialog.reactant2.resize(140, 30)
@@ -239,7 +243,9 @@ class MainWidget(QWidget):
             self.programRunDialog.textEdit1.resize(140, 50)
             self.programRunDialog.textEdit2.resize(140, 50)
             self.programRunDialog.textEdit3.resize(140, 50)
-            self.programRunDialog.textEdit4.resize(440, 50)
+            self.programRunDialog.textEdit4.resize(440, 80)
+            self.programRunDialog.textEdit5.resize(440, 80)
+            self.programRunDialog.unitConversion.resize(110, 40)
 
             self.programRunDialog.reactant1.move(50, 30)
             self.programRunDialog.reactant2.move(200, 30)
@@ -247,26 +253,44 @@ class MainWidget(QWidget):
             self.programRunDialog.textEdit1.move(50, 100)
             self.programRunDialog.textEdit2.move(200, 100)
             self.programRunDialog.textEdit3.move(350, 100)
-            self.programRunDialog.textEdit4.move(50, 200)
+            self.programRunDialog.textEdit4.move(50, 170)
+            self.programRunDialog.textEdit5.move(50, 270)
+            self.programRunDialog.unitConversion.move(380, 310)
 
-            self.programRunDialog.textEdit4.setFontPointSize(10)
+            self.programRunDialog.textEdit5.setFontPointSize(10)
 
             self.programRunDialog.reactant1.clicked.connect(self.reactant_1_Function)
             self.programRunDialog.reactant2.clicked.connect(self.reactant_2_Function)
             self.programRunDialog.reactant3.clicked.connect(self.reactant_TS_Function)
+            self.programRunDialog.unitConversion.clicked.connect(self.unitConversionFunction)
 
             self.programRunDialog.saveListBtn = QPushButton("저장", self.programRunDialog)
-            self.programRunDialog.saveListBtn.move(200, 300)
+            self.programRunDialog.saveListBtn.move(200, 400)
             self.programRunDialog.saveListBtn.resize(150, 50)
             self.programRunDialog.saveListBtn.clicked.connect(self.saveList)
 
             self.programRunDialog.setWindowTitle("활성화 에너지 구하기")
             self.programRunDialog.setWindowModality(Qt.ApplicationModal)
-            self.programRunDialog.setFixedSize(540, 400)
+            self.programRunDialog.setFixedSize(540, 500)
 
             self.programRunDialog.show()
 
         else:
             self.startProgram.clicked.connect(self.plzInputProfileFunction)
 
+    def unitConversionFunction(self):
+        self.unitConversionDialog.unitTextBox = QTextEdit(self.unitConversionDialog)
+        self.unitConversionDialog.unitTextBox.setText(str(float(data_result) * (4.3597 * 10 - 18)) + "J\n" 
+        + str(float(data_result) * 27.2114) + "eV\n"
+        + str(float(data_result) * 2625) + "kJ/mol\n")
+        self.unitConversionDialog.closeUnitDialog = QPushButton("Close", self.unitConversionDialog)
+        self.unitConversionDialog.closeUnitDialog.clicked.connect(self.closeDialogFunction)
+
+        self.unitConversionDialog.unitTextBox.resize(260, 200)
+        self.unitConversionDialog.unitTextBox.move(20, 20)
+
+        self.unitConversionDialog.closeUnitDialog.move(100, 260)
+        self.unitConversionDialog.setWindowTitle("단위 변환")
+        self.unitConversionDialog.setFixedSize(300, 300)
+        self.unitConversionDialog.show()
 
